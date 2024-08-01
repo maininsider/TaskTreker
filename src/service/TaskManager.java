@@ -5,9 +5,7 @@ import model.Subtask;
 import model.Epic;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class TaskManager {
     static int taskId = 0;
@@ -218,16 +216,23 @@ public class TaskManager {
         }
     }
 
-    public void removeEpicById(int id) {
+    public Epic removeEpicById(int id) {
         if (epics.containsKey(id)) {
+            Epic epic = epics.get(id);
+            ArrayList<Integer> idsForRemove = new ArrayList<>();
             for (int subtaskId : subtasks.keySet()) {
                 if (subtasks.get(subtaskId).getEpicId() == id) {
-                 subtasks.remove(subtaskId);
+                    idsForRemove.add(subtaskId);
                 }
             }
+            for (int i : idsForRemove) {
+                subtasks.remove(i);
+            }
             epics.remove(id);
+            return epic;
         } else {
             System.out.println("Эпика с данным id не существует");
+            return null;
         }
     }
 
