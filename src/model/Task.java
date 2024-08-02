@@ -1,20 +1,37 @@
 package model;
 
-import service.TaskStatus;
-
 import java.util.Objects;
 
 public class Task {
-    String nameOfTask;
-    String description;
-    public int id;
-    TaskStatus taskStatus = TaskStatus.NEW;
+    private String nameOfTask;
+    private String description;
+    private int id;
+    private TaskStatus taskStatus;
 
     //конструктор с id для целей тестирования
+    public Task(int id, String nameOfTask, String description, TaskStatus taskStatus) {
+        this.id = id;
+        this.description = description;
+        this.nameOfTask = nameOfTask;
+        this.taskStatus = taskStatus;
+    }
+
     public Task(int id, String nameOfTask, String description) {
         this.id = id;
         this.description = description;
         this.nameOfTask = nameOfTask;
+        }
+
+    public Task(String nameOfTask, String description, TaskStatus taskStatus) {
+        this.nameOfTask = nameOfTask;
+        this.description = description;
+        this.taskStatus = taskStatus;
+    }
+
+    public Task(String nameOfTask, String description) {
+        this.nameOfTask = nameOfTask;
+        this.description = description;
+
     }
 
     public String getNameOfTask() {
@@ -31,18 +48,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Task(String nameOfTask, String description, TaskStatus taskStatus) {
-        this.nameOfTask = nameOfTask;
-        this.description = description;
-        this.taskStatus = taskStatus;
-    }
-
-    public Task(String nameOfTask, String description) {
-        this.nameOfTask = nameOfTask;
-        this.description = description;
-
     }
 
     public TaskStatus getTaskStatus() {

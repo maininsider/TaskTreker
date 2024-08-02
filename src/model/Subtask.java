@@ -1,14 +1,11 @@
 package model;
 
-import service.TaskStatus;
-
 public class Subtask extends Task {
-    int epicId;
+    private int epicId;
 
     //конструктор с id для целей тестирования
     public Subtask(int id, int epicId, String nameOfTask, String description, TaskStatus taskStatus) {
-        super(id, nameOfTask, description);
-        this.taskStatus = taskStatus;
+        super(id, nameOfTask, description, taskStatus);
         this.epicId = epicId;
     }
 
