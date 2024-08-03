@@ -11,9 +11,9 @@ import java.util.HashMap;
 
 public class TaskManager {
     private int taskId = 0;
-    public HashMap<Integer, Task> tasks = new HashMap<>();
-    public HashMap<Integer, Epic> epics = new HashMap<>();
-    public HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Epic> epics = new HashMap<>();
+    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
     public int generateNewId() {
         taskId++;
@@ -70,7 +70,9 @@ public class TaskManager {
         if (epic != null) {
             int id = epic.getId();
             if (epics.containsKey(id)) {
-                tasks.put(id, epic);
+                ArrayList<Integer> SubtasksIds = epics.get(id).getSubtasksIds();
+                epics.put(id, epic);
+                epic.setSubtasksIds(SubtasksIds);
                 updateEpicStatus(epic);
                 return epic;
             } else {

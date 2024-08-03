@@ -30,15 +30,11 @@ public class Main {
         taskManager.addSubtask(subtask3);
 
         System.out.println("Печатаем эпики");
-        System.out.println(taskManager.epics);
+        System.out.println(taskManager.getEpics());
         System.out.println("Печатаем подзадачи");
-        System.out.println(taskManager.subtasks);
+        System.out.println(taskManager.getSubtasks());
         System.out.println("Печатаем задачи");
-        System.out.println(taskManager.tasks);
-
-        taskManager.tasks.get(task1.getId()).setTaskStatus(TaskStatus.DONE);
-        taskManager.tasks.get(task2.getId()).setTaskStatus(TaskStatus.DONE);
-        taskManager.tasks.get(task3.getId()).setTaskStatus(TaskStatus.DONE);
+        System.out.println(taskManager.getTasks());
 
         System.out.println("Статусы эпиков");
         System.out.println(epic1.getTaskStatus());
@@ -70,20 +66,20 @@ public class Main {
         System.out.println(taskManager.updateSubtask(subtask1));
 
         System.out.println("Эпики до удаления");
-        System.out.println(taskManager.epics);
+        System.out.println(taskManager.getEpics());
         System.out.println("Подзадачи до удаления");
-        System.out.println(taskManager.subtasks);
+        System.out.println(taskManager.getSubtasks());
         System.out.println("Задачи до удаения");
-        System.out.println(taskManager.tasks);
+        System.out.println(taskManager.getTasks());
         taskManager.removeEpicById(epic2.getId());
         taskManager.removeSubtaskById(subtask1.getId());
         taskManager.removeTaskById(task1.getId());
         System.out.println("Эпики после удаления по id");
-        System.out.println(taskManager.epics);
+        System.out.println(taskManager.getEpics());
         System.out.println("Подзадачи после удаления по id");
-        System.out.println(taskManager.subtasks);
+        System.out.println(taskManager.getSubtasks());
         System.out.println("Задачи после удаления по id");
-        System.out.println(taskManager.tasks);
+        System.out.println(taskManager.getTasks());
 
         System.out.println("Удаление всех задач");
         taskManager.removeTasks();
@@ -91,10 +87,10 @@ public class Main {
         taskManager.removeSubtasks();
 
         System.out.println("Печатаем эпики");
-        System.out.println(taskManager.epics);
+        System.out.println(taskManager.getEpics());
         System.out.println("Печатаем подзадачи");
-        System.out.println(taskManager.subtasks);
+        System.out.println(taskManager.getSubtasks());
         System.out.println("Печатаем задачи");
-        System.out.println(taskManager.tasks);
+        System.out.println(taskManager.getTasks());
     }
 }
