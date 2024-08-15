@@ -1,12 +1,12 @@
 import model.Epic;
 import model.Subtask;
 import model.Task;
-import service.TaskManager;
+import service.InMemoryTaskManager;
 import model.TaskStatus;
 
 public class Main {
     public static void main (String[] args) {
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         Task task2 = new Task("Готовка", "Приготовить еду",  TaskStatus.NEW);
@@ -29,7 +29,7 @@ public class Main {
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);
 
-        System.out.println("Печатаем эпики");
+        /*System.out.println("Печатаем эпики");
         System.out.println(taskManager.getEpics());
         System.out.println("Печатаем подзадачи");
         System.out.println(taskManager.getSubtasks());
@@ -91,6 +91,22 @@ public class Main {
         System.out.println("Печатаем подзадачи");
         System.out.println(taskManager.getSubtasks());
         System.out.println("Печатаем задачи");
-        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getTasks());*/
+
+        taskManager.getTaskById(task1.getId()); //1
+        taskManager.getTaskById(task2.getId()); //2
+        taskManager.getTaskById(task2.getId()); //3
+        taskManager.getTaskById(task2.getId()); //4
+        taskManager.getTaskById(task2.getId()); //5
+        taskManager.getTaskById(task2.getId()); //6
+        taskManager.getTaskById(task2.getId()); //7
+        taskManager.getTaskById(task2.getId()); //8
+        taskManager.getTaskById(task2.getId()); //9
+        taskManager.getTaskById(task2.getId()); //10
+        taskManager.getTaskById(task2.getId()); //11
+
+        System.out.println("Исторя просмотров:");
+        System.out.println("Длина списка: " + taskManager.getHistory().size());
+        System.out.println(taskManager.getHistory());
     }
 }
