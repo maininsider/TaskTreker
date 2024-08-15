@@ -7,7 +7,7 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public interface taskManager {
+public interface TaskManager {
     int generateNewId();
 
     Task addTask(Task task);
@@ -48,5 +48,5 @@ public interface taskManager {
 
     void removeSubtasks();
 
-    ArrayList<Task> getHistory();
+    ArrayList<Task> getHistoryFromHistoryManager();
 }

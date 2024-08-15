@@ -1,23 +1,30 @@
 import model.Epic;
 import model.Subtask;
 import model.Task;
+import service.HistoryManager;
+import service.InMemoryHistoryManager;
 import service.InMemoryTaskManager;
 import model.TaskStatus;
+import service.Managers;
+import service.TaskManager;
 
 public class Main {
+
     public static void main (String[] args) {
-        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        TaskManager taskManager = Managers.getDefault();
+        //HistoryManager historyManager = Managers.getDefaultHistory();
+
 
         Task task1 = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         Task task2 = new Task("Готовка", "Приготовить еду",  TaskStatus.NEW);
         Task task3 = new Task("Стирка", "Постирать вещи",  TaskStatus.NEW);
         Epic epic1 = new Epic("Поехать в отпуск", "Организовать путишествие");
         Epic epic2 = new Epic("Сделать ремонт", "Покрасить стены на балконе");
-        Subtask subtask1 = new Subtask(10, 4,"Купить шпатель",
+        Subtask subtask1 = new Subtask(10, 5,"Купить шпатель",
                 "Выбрать в магазине шпатель и купить", TaskStatus.NEW);
-        Subtask subtask2 = new Subtask(11, 4,"Купить краску",
+        Subtask subtask2 = new Subtask(11, 5,"Купить краску",
                 "Выбрать краску и купить", TaskStatus.DONE);
-        Subtask subtask3 = new Subtask(12, 5,"Выбрать курорт",
+        Subtask subtask3 = new Subtask(12, 4,"Выбрать курорт",
                 "Изучить варинты гостиниц и забронировать", TaskStatus.IN_PROGRESS);
 
         taskManager.addTask(task1);
@@ -93,7 +100,7 @@ public class Main {
         System.out.println("Печатаем задачи");
         System.out.println(taskManager.getTasks());*/
 
-        taskManager.getTaskById(task1.getId()); //1
+        /*taskManager.getTaskById(task1.getId()); //1
         taskManager.getTaskById(task2.getId()); //2
         taskManager.getTaskById(task2.getId()); //3
         taskManager.getTaskById(task2.getId()); //4
@@ -106,7 +113,33 @@ public class Main {
         taskManager.getTaskById(task2.getId()); //11
 
         System.out.println("Исторя просмотров:");
-        System.out.println("Длина списка: " + taskManager.getHistory().size());
-        System.out.println(taskManager.getHistory());
+        System.out.println("Длина списка: " + taskManager.getHistoryFromHistoryManager().size());
+        System.out.println(taskManager.getHistoryFromHistoryManager());*/
+
+        printAllTasks((InMemoryTaskManager) taskManager);
+    }
+
+    private static void printAllTasks(InMemoryTaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getEpics()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getSubtasksOfEpic(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistoryFromHistoryManager()) {
+            System.out.println(task);
+        }
     }
 }

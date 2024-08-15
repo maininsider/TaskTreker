@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class InMemoryTaskManager implements taskManager {
+public class InMemoryTaskManager implements TaskManager {
     private int taskId = 0;
-    private ArrayList<Task> historyList = new ArrayList<>();
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
     public int generateNewId() {
@@ -110,8 +110,8 @@ public class InMemoryTaskManager implements taskManager {
     @Override
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
-            checkingHistoryLength();
-            historyList.add(tasks.get(id));
+            historyManager.checkingHistoryLength();
+            historyManager.add(tasks.get(id));
             return tasks.get(id);
         } else {
             System.out.println("Задачи с данным id не существует");
@@ -122,8 +122,8 @@ public class InMemoryTaskManager implements taskManager {
     @Override
     public Epic getEpicById(int id) {
         if (epics.containsKey(id)) {
-            checkingHistoryLength();
-            historyList.add(epics.get(id));
+            historyManager.checkingHistoryLength();
+            historyManager.add(epics.get(id));
             return epics.get(id);
         } else {
             System.out.println("Эпика с данным id не существует");
@@ -134,8 +134,8 @@ public class InMemoryTaskManager implements taskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         if (subtasks.containsKey(id)) {
-            checkingHistoryLength();
-            historyList.add(subtasks.get(id));
+            historyManager.checkingHistoryLength();
+            historyManager.add(subtasks.get(id));
             return subtasks.get(id);
         } else {
             System.out.println("Подзадачи с данным id не существует");
@@ -145,16 +145,28 @@ public class InMemoryTaskManager implements taskManager {
 
     @Override
     public Collection<Task> getTasks() {
+        for (Task task : tasks.values()) {
+            historyManager.checkingHistoryLength();
+            historyManager.add(task);
+        }
         return tasks.values();
     }
 
     @Override
     public Collection<Epic> getEpics() {
+        for (Epic epic : epics.values()) {
+            historyManager.checkingHistoryLength();
+            historyManager.add(epic);
+        }
         return epics.values();
     }
 
     @Override
     public Collection<Subtask> getSubtasks() {
+        for (Subtask subtask : subtasks.values()) {
+            historyManager.checkingHistoryLength();
+            historyManager.add(subtask);
+        }
         return subtasks.values();
     }
 
@@ -241,13 +253,8 @@ public class InMemoryTaskManager implements taskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        return historyList;
-    }
-
-    private void checkingHistoryLength() {
-        if (historyList.size() == 10)
-            historyList.remove(0);
+    public ArrayList<Task> getHistoryFromHistoryManager() {
+        return historyManager.getHistory();
     }
 
     private void updateEpicStatus(Epic epic) {
