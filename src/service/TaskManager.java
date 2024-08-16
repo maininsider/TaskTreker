@@ -5,7 +5,6 @@ import model.Subtask;
 import model.Task;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface TaskManager {
     int generateNewId();
@@ -28,11 +27,11 @@ public interface TaskManager {
 
     Subtask getSubtaskById(int id);
 
-    Collection<Task> getTasks();
+    ArrayList<Task> getTasks();
 
-    Collection<Epic> getEpics();
+    ArrayList<Epic> getEpics();
 
-    Collection<Subtask> getSubtasks();
+    ArrayList<Subtask> getSubtasks();
 
     ArrayList<Subtask> getSubtasksOfEpic(int epicId);
 
