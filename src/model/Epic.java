@@ -6,9 +6,8 @@ public class Epic extends Task {
     private ArrayList<Integer> subtasksIds = new ArrayList<>();
 
     //конструктор с id для целей тестирования
-    public Epic(int id, String nameOfTask, String description, ArrayList<Integer> subtasksIds) {
+    public Epic(int id, String nameOfTask, String description) {
         super(id, nameOfTask, description);
-        this.subtasksIds = subtasksIds;
     }
 
     public Epic(String nameOfTask, String description) {
@@ -31,11 +30,11 @@ public class Epic extends Task {
         this.subtasksIds = subtasksIds;
     }
 
-    public void removeSubtasksId(Integer subtaskId) {
-        for (Integer id : subtasksIds) {
-            if (id.equals(subtaskId)) {
-                subtasksIds.remove(id);
-            }
-        }
+    public void removeSubtaskIdById(Integer subtaskId) {
+                if (subtasksIds.contains(subtaskId)) {
+                subtasksIds.remove(subtaskId);
+            } else {
+                    System.out.println("Такого id нет в списке subtasksIds");
+                }
     }
 }

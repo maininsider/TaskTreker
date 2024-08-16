@@ -1,7 +1,7 @@
 package model;
 
 public class Subtask extends Task {
-    private int epicId;
+    private Integer epicId;
 
     //конструктор с id для целей тестирования
     public Subtask(int id, int epicId, String nameOfTask, String description, TaskStatus taskStatus) {

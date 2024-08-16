@@ -12,13 +12,11 @@ public class Main {
 
     public static void main (String[] args) {
         TaskManager taskManager = Managers.getDefault();
-        //HistoryManager historyManager = Managers.getDefaultHistory();
-
 
         Task task1 = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         Task task2 = new Task("Готовка", "Приготовить еду",  TaskStatus.NEW);
         Task task3 = new Task("Стирка", "Постирать вещи",  TaskStatus.NEW);
-        Epic epic1 = new Epic("Поехать в отпуск", "Организовать путишествие");
+        Epic epic1 = new Epic("Поехать в отпуск", "Организовать путешествие");
         Epic epic2 = new Epic("Сделать ремонт", "Покрасить стены на балконе");
         Subtask subtask1 = new Subtask(10, 5,"Купить шпатель",
                 "Выбрать в магазине шпатель и купить", TaskStatus.NEW);
@@ -26,6 +24,9 @@ public class Main {
                 "Выбрать краску и купить", TaskStatus.DONE);
         Subtask subtask3 = new Subtask(12, 4,"Выбрать курорт",
                 "Изучить варинты гостиниц и забронировать", TaskStatus.IN_PROGRESS);
+
+        Subtask subtaskForUpdate = new Subtask(8, 4,"Выбрать курорт",
+                "Изучить варинты гостиниц и забронировать", TaskStatus.DONE);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
@@ -117,6 +118,10 @@ public class Main {
         System.out.println(taskManager.getHistoryFromHistoryManager());*/
 
         printAllTasks((InMemoryTaskManager) taskManager);
+
+        taskManager.updateSubtask(subtaskForUpdate);
+
+
     }
 
     private static void printAllTasks(InMemoryTaskManager manager) {

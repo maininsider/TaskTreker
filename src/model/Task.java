@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Task {
     private String nameOfTask;
     private String description;
-    private int id;
+    private Integer id;
     private TaskStatus taskStatus;
 
     //конструктор с id для целей тестирования
