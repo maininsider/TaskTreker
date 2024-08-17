@@ -22,7 +22,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     void shouldAddTask() {
-        Task task = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
+        Task task = new Task(234,"Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         manager.addTask(task);
         final int taskId = task.getId();
 
@@ -30,11 +30,13 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
+        assertNotEquals(234, taskId, "id не изменился на сгенерированный при добавлении.");
+
     }
 
     @Test
     void shouldAddEpic() {
-        Epic epic = new Epic("Поехать в отпуск", "Организовать путишествие");
+        Epic epic = new Epic(354,"Поехать в отпуск", "Организовать путишествие");
 
         manager.addEpic(epic);
 
@@ -43,6 +45,7 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(savedEpic, "Эпик не найден.");
         assertEquals(epic, savedEpic, "Эпики не совпадают.");
+        assertNotEquals(354, epicId, "id не изменился на сгенерированный при добавлении.");
     }
 
     @Test
@@ -59,6 +62,8 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(savedSubtask, "Подзадача не найдена.");
         assertEquals(subtask, savedSubtask, "Подзадачи не совпадают.");
+        assertNotEquals(10, subtaskId, "id не изменился на сгенерированный при добавлении.");
+
     }
 
     @Test
@@ -338,4 +343,27 @@ class InMemoryTaskManagerTest {
         assertEquals(history.get(2), subtask, "Подзадача не попала в историю.");
 
     }
+    @Test
+    void immutabilityOfTheTask() {
+        Task task = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
+        manager.addTask(task);
+        int taskId = task.getId();
+
+        String receivedNameOfTask = manager.getTaskById(taskId).getNameOfTask();
+        String receivedDescription = manager.getTaskById(taskId).getDescription();
+        TaskStatus receivedTaskStatus = manager.getTaskById(taskId).getTaskStatus();
+
+        assertEquals(task.getNameOfTask(), receivedNameOfTask, "Поля имени задач не совпадают.");
+        assertEquals(task.getDescription(), receivedDescription, "Поля описания задач не совпадают.");
+        assertEquals(task.getTaskStatus(), receivedTaskStatus, "Поля статуса задач не совпадают.");
+    }
+
+    //Невозможный тест №1
+    //Проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
+    //Подзадача добавляется к эпику во время создания подзадачи, метод принимает только подзадачи. Поэтому тест невозможен.
+
+    //Невозможный тест №2
+    // Проверьте, что объект Subtask нельзя сделать своим же эпиком;
+    // При создании подзадачи, метод добавляет ее к эпику исходя из изначально указанного id эпика в конструкторе подзадачи.
+    // Поэтому подзадачу нельзя сделать эпиком подзадачи.
 }
