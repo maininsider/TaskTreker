@@ -47,32 +47,12 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     void shouldCheckingHistoryLength() {
+        int maxHistorySize = 10;
         Task task = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         for (int i = 0; i <= 15; i++) {
-            historyManager.checkingHistoryLength();
             historyManager.add(task);
         }
         int historyListSize = historyManager.getHistory().size();
-
-        assertTrue(10 >= historyListSize, "В историю добалвено болье 10 задач");
-    }
-
-    @Test
-    void shouldSavePreviousVersionOfTask() {
-        Task task1 = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
-        Task task2 = new Task("Готовка", "Приготовить еду",  TaskStatus.NEW);
-        Task task3 = new Task("Стирка", "Постирать вещи",  TaskStatus.NEW);
-
-        historyManager.add(task1);
-        historyManager.add(task2);
-        historyManager.add(task3);
-
-        Task task1FromHistory = historyManager.getHistory().get(0);
-        Task task2FromHistory = historyManager.getHistory().get(1);
-
-        assertNotNull(task1FromHistory);
-        assertNotNull(task2FromHistory);
-        assertEquals(task1, task1FromHistory);
-        assertEquals(task2, task2FromHistory);
+        assertTrue(maxHistorySize >= historyListSize, "В историю добалвено более 10 задач");
     }
 }

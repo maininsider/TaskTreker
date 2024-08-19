@@ -326,17 +326,19 @@ class InMemoryTaskManagerTest {
     void shouldGetHistoryFromHistoryManager() {
         Task task = new Task("Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
         manager.addTask(task);
+        int taskId = task.getId();
         Epic epic = new Epic("Поехать в отпуск", "Организовать путишествие");
         manager.addEpic(epic);
         int epicId = epic.getId();
         Subtask subtask = new Subtask(10, epicId,"Выбрать курорт",
                 "Изучить варинты гостиниц и забронировать", TaskStatus.NEW);
         manager.addSubtask(subtask);
+        int subtaskId = subtask.getId();
 
-        manager.getTasks();
-        manager.getEpics();
-        manager.getSubtasks();
-        ArrayList<Task> history = manager.getHistoryFromHistoryManager();
+        manager.getTaskById(taskId);
+        manager.getEpicById(epicId);
+        manager.getSubtaskById(subtaskId);
+        ArrayList<Task> history = manager.getHistory();
 
         assertEquals(history.get(0), task, "Задача не попала в историю.");
         assertEquals(history.get(1), epic, "Эпик не попал в историю.");
@@ -358,12 +360,46 @@ class InMemoryTaskManagerTest {
         assertEquals(task.getTaskStatus(), receivedTaskStatus, "Поля статуса задач не совпадают.");
     }
 
+    @Test
+    void shouldSavePreviousVersionOfTask() {
+        Task task = new Task(1,"Уборка", "Собрать и вынести мусор",  TaskStatus.NEW);
+        Task updateTask = new Task(1,"Готовка", "Приготовить еду",  TaskStatus.NEW);
+
+        manager.addTask(task);
+        manager.getTaskById(task.getId());
+
+        Task taskFromHistory = manager.getHistory().get(0);
+
+        assertEquals(task, taskFromHistory);
+        assertEquals(task.getNameOfTask(), taskFromHistory.getNameOfTask());
+        assertEquals(task.getDescription(), taskFromHistory.getDescription());
+        assertEquals(task.getTaskStatus(), taskFromHistory.getTaskStatus());
+
+        manager.updateTask(updateTask);
+        assertEquals(task, taskFromHistory);
+        assertEquals(task.getNameOfTask(), taskFromHistory.getNameOfTask());
+        assertEquals(task.getDescription(), taskFromHistory.getDescription());
+        assertEquals(task.getTaskStatus(), taskFromHistory.getTaskStatus());
+    }
+
+    @Test
+    void shouldNotAddSubtaskWithSimilarEpicId() {
+        Epic epic = new Epic("Поехать в отпуск", "Организовать путешествие");
+        manager.addEpic(epic);
+        int epicId = epic.getId();
+
+        Subtask subtask = new Subtask(epicId, epicId,"Купить шпатель",
+                "Выбрать в магазине шпатель и купить", TaskStatus.NEW);
+        manager.addSubtask(subtask);
+
+        int subtaskId = subtask.getId();
+        int epicIdOfSubtask = manager.getSubtaskById(subtaskId).getEpicId();
+
+        assertNotEquals(subtaskId, epicIdOfSubtask, "id подзадачи совпадает с ее epicId.");
+
+    }
+
     //Невозможный тест №1
     //Проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи
     //Подзадача добавляется к эпику во время создания подзадачи, метод принимает только подзадачи. Поэтому тест невозможен.
-
-    //Невозможный тест №2
-    // Проверьте, что объект Subtask нельзя сделать своим же эпиком;
-    // При создании подзадачи, метод добавляет ее к эпику исходя из изначально указанного id эпика в конструкторе подзадачи.
-    // Поэтому подзадачу нельзя сделать эпиком подзадачи.
 }

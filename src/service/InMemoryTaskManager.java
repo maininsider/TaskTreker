@@ -53,7 +53,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
     @Override
     public Task updateTask(Task task) {
         if (task != null) {
@@ -114,7 +113,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         if (tasks.containsKey(id)) {
-            historyManager.checkingHistoryLength();
             historyManager.add(tasks.get(id));
             return tasks.get(id);
         } else {
@@ -126,7 +124,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         if (epics.containsKey(id)) {
-            historyManager.checkingHistoryLength();
             historyManager.add(epics.get(id));
             return epics.get(id);
         } else {
@@ -138,7 +135,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         if (subtasks.containsKey(id)) {
-            historyManager.checkingHistoryLength();
             historyManager.add(subtasks.get(id));
             return subtasks.get(id);
         } else {
@@ -151,8 +147,6 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Task> getTasks() {
         ArrayList<Task> tasksList = new ArrayList<>();
         for (Task task : tasks.values()) {
-            historyManager.checkingHistoryLength();
-            historyManager.add(task);
             tasksList.add(task);
         }
         return tasksList;
@@ -162,8 +156,6 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Epic> getEpics() {
         ArrayList<Epic> epicsList = new ArrayList<>();
         for (Epic epic : epics.values()) {
-            historyManager.checkingHistoryLength();
-            historyManager.add(epic);
             epicsList.add(epic);
         }
         return epicsList;
@@ -173,8 +165,6 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Subtask> getSubtasks() {
         ArrayList<Subtask> subtaskList = new ArrayList<>();
         for (Subtask subtask : subtasks.values()) {
-            historyManager.checkingHistoryLength();
-            historyManager.add(subtask);
             subtaskList.add(subtask);
         }
         return subtaskList;
@@ -263,7 +253,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistoryFromHistoryManager() {
+    public ArrayList<Task> getHistory() {
         return historyManager.getHistory();
     }
 
