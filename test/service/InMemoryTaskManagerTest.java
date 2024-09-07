@@ -343,7 +343,7 @@ class InMemoryTaskManagerTest {
         manager.getTaskById(taskId);
         manager.getEpicById(epicId);
         manager.getSubtaskById(subtaskId);
-        ArrayList<Task> history = manager.getHistory();
+        ArrayList<Task> history = (ArrayList<Task>) manager.getHistory();
 
         assertEquals(history.get(0), task, "Задача не попала в историю.");
         assertEquals(history.get(1), epic, "Эпик не попал в историю.");
