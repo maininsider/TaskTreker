@@ -37,10 +37,25 @@ public class Main {
 
 
         taskManager.getTaskById(task1.getId());
+
+
+        taskManager.removeTaskById(task1.getId());
+
         taskManager.getEpicById(epic1.getId());
+        taskManager.getEpicById(epic1.getId());
+        taskManager.getEpicById(epic1.getId());
+
+        taskManager.getSubtaskById(subtask1.getId());
+        taskManager.getSubtaskById(subtask1.getId());
         taskManager.getSubtaskById(subtask1.getId());
         taskManager.updateSubtask(subtaskForUpdate);
+
         printAllTasks((InMemoryTaskManager) taskManager);
+
+        taskManager.removeEpics();
+
+        printAllTasks((InMemoryTaskManager) taskManager);
+
 
     }
 
@@ -68,3 +83,4 @@ public class Main {
         }
     }
 }
+//Тест новой ветки
